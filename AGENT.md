@@ -16,8 +16,7 @@ capabilities:
 repository: github:rabbah/hello-astro
 integrations:
   - OpenAI
-  - Redis
-  - OpenTelemetry
+  - GitHub
 ---
 
 ## Overview

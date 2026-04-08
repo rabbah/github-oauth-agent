@@ -82,6 +82,4 @@ hello-astro/
 | Integration | Purpose |
 |---|---|
 | OpenAI (`gpt-4o`) | LLM for conversation and tool use |
-| Redis | Key-value cache (knowledge store) |
 | GitHub API | Repository and activity data via user's OAuth token |
-| OpenTelemetry | Distributed tracing via OTLP |

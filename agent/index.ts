@@ -7,7 +7,6 @@
  * Environment variables (automatically injected by 'ast dev'):
  *   GRPC_SERVER_ADDR         - injected by Astro messaging service
  *   OPENAI_API_KEY           - injected by openai model
- *   REDIS_HOST/PORT/URL      - injected by redis knowledge store
  *
  * Auth environment variables (set via ast configure or .env):
  *   OAUTH_CLIENT_ID          - OAuth app client ID

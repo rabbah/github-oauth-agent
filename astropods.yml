@@ -40,10 +40,6 @@ models:
   openai:
     provider: openai
 
-knowledge:
-  cache:
-    provider: redis
-
 dev:
   command: bun --watch agent/index.ts
   interfaces:
