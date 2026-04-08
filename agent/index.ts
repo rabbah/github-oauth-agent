@@ -17,7 +17,6 @@
  *   OAUTH_USERINFO_URL       - Provider userinfo endpoint (optional, for OIDC/GitHub etc.)
  *   OAUTH_CALLBACK_URL       - Full URL of this agent's callback, e.g. http://localhost:3001/callback
  *   OAUTH_SCOPES             - Space-separated scopes (default: "openid profile email")
- *   CALLBACK_PORT            - Port for the OAuth callback HTTP server (default: 3001)
  */
 
 import { Agent } from '@mastra/core/agent';

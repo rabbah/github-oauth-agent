@@ -8,8 +8,9 @@ const SESSION_TTL_MS = 8 * 60 * 60 * 1000; // 8 hours
 // Messaging adapter URL — proxied to for /api/* requests from the SPA.
 // In dev, the messaging service runs on the host at port 3100; host.docker.internal
 // resolves to the host machine from inside the Docker container (Docker Desktop / Mac).
-// In production, override via ASTRO_MESSAGING_URL.
-const MESSAGING_URL = process.env.ASTRO_MESSAGING_URL ?? 'http://host.docker.internal:3100';
+const MESSAGING_URL = process.env.GRPC_SERVER_ADDR
+  ? `http://${process.env.GRPC_SERVER_ADDR.replace(/^https?:\/\//, '').replace(/:\d+$/, '')}:8080`
+  : 'http://host.docker.internal:3100';
 
 // Built SPA lives at /app/public in the container (agent/auth/ → ../../public)
 const PUBLIC_DIR = join(import.meta.dir, '../../public');

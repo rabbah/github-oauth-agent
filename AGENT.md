@@ -26,11 +26,11 @@ integrations:
 
 Sessions are stored in-memory with an 8-hour TTL and keyed by conversation ID, allowing the agent to maintain per-conversation auth state across turns.
 
+The agent assumes GitHub as the Identity Provider, and will operate as the authenticated user to fetch a list of their repositories and answer questions about those repos based on the contents of the respective README files in those repos.
+
 ## Usage
 
 1. Configure OAuth credentials and endpoints via the required inputs (`OAUTH_CLIENT_ID`, `OAUTH_CLIENT_SECRET`, `OAUTH_AUTH_URL`, `OAUTH_TOKEN_URL`, `OAUTH_CALLBACK_URL`).
-2. Start the agent with `ast dev` — this runs the gRPC messaging service and the OAuth callback server (default port 3001).
-3. Open the playground at `http://localhost:3000`.
 4. On first message, the agent returns a sign-in link. Click it to authorize via your OAuth provider.
 5. After authorization, the provider redirects to the callback server, which exchanges the code for a token, fetches user info, and creates a session.
 6. Subsequent messages are processed normally with the user's identity prepended to the prompt.
@@ -57,4 +57,4 @@ Sessions are stored in-memory with an 8-hour TTL and keyed by conversation ID, a
 - Sessions are stored in-memory; restarting the agent clears all active sessions and requires users to re-authenticate.
 - The agent uses a single OAuth client configuration — it does not support multi-tenant or per-user OAuth app credentials.
 - Token refresh is not implemented; sessions expire after 8 hours and the user must sign in again.
-- The callback server listens on a single configurable port; running multiple instances requires distinct `CALLBACK_PORT` values.
+- The callback server listens on port 80 (overridable via `PORT`); running multiple instances requires distinct port assignments.
