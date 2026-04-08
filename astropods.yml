@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=https://astropods.ai/schema/package.json
+spec: package/v1
+name: hello-auth
+
+agent:
+  build:
+    context: .
+    dockerfile: Dockerfile
+  interfaces:
+    frontend: true
+    messaging: true
+  inputs:
+    - name: OAUTH_CLIENT_ID
+      datatype: string
+      description: OAuth client ID
+    - name: OAUTH_CLIENT_SECRET
+      datatype: string
+      secret: true
+      description: OAuth client secret
+    - name: OAUTH_AUTH_URL
+      datatype: string
+      description: OAuth authorization endpoint URL
+    - name: OAUTH_TOKEN_URL
+      datatype: string
+      description: OAuth token exchange endpoint URL
+    - name: OAUTH_CALLBACK_URL
+      datatype: string
+      description: OAuth redirect URI
+    - name: OAUTH_SCOPES
+      datatype: string
+      description: OAuth scopes to request
+      default: openid profile email
+      optional: true
+    - name: OAUTH_USERINFO_URL
+      datatype: string
+      description: OAuth userinfo endpoint URL
+      optional: true
+    - name: CALLBACK_PORT
+      datatype: number
+      description: Port for the OAuth callback server
+      default: "3001"
+      optional: true
+    - name: PLAYGROUND_URL
+      datatype: string
+      description: URL of the playground UI to redirect to after OAuth callback
+      default: http://localhost:3000
+      optional: true
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+      datatype: string
+      description: OTLP endpoint for OpenTelemetry traces
+      default: http://localhost:4318
+      optional: true
+
+models:
+  openai:
+    provider: openai
+
+knowledge:
+  cache:
+    provider: redis
+
+dev:
+  command: bun --watch agent/index.ts
+  overrides:
+    playgroundImage: hello-auth-playground:latest
+  interfaces:
+    messaging:
+      adapters: [web]
+    frontend:
+      port: 3001
