@@ -11,7 +11,7 @@
   },
   "main": "./agent/index.ts",
   "dependencies": {
-    "@astropods/playground": "latest",
+    "@astropods/playground": "file:astropods-playground-0.0.0.tgz",
     "@mastra/core": "latest",
     "@mastra/memory": "latest",
     "@mastra/libsql": "latest",
