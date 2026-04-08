@@ -1,4 +1,4 @@
-# hello-auth
+# hello-astro
 
 Agent showing basic auth flow
 

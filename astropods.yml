@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://astropods.ai/schema/package.json
 spec: package/v1
-name: hello-auth
+name: hello-astro
 
 agent:
   build:
@@ -35,21 +35,6 @@ agent:
       datatype: string
       description: OAuth userinfo endpoint URL
       optional: true
-    - name: CALLBACK_PORT
-      datatype: number
-      description: Port for the OAuth callback server
-      default: "3001"
-      optional: true
-    - name: PLAYGROUND_URL
-      datatype: string
-      description: URL of the playground UI to redirect to after OAuth callback
-      default: http://localhost:3000
-      optional: true
-    - name: OTEL_EXPORTER_OTLP_ENDPOINT
-      datatype: string
-      description: OTLP endpoint for OpenTelemetry traces
-      default: http://localhost:4318
-      optional: true
 
 models:
   openai:
@@ -61,10 +46,8 @@ knowledge:
 
 dev:
   command: bun --watch agent/index.ts
-  overrides:
-    playgroundImage: hello-auth-playground:latest
   interfaces:
     messaging:
       adapters: [web]
     frontend:
-      port: 3001
+      port: 80

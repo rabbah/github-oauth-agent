@@ -1,6 +1,7 @@
 import type { AgentAdapter, StreamHooks, StreamOptions } from '@astropods/adapter-core';
 import { getAuthorizationUrl } from './oauth';
 import { getSession } from './session';
+import { conversationContext } from './context';
 
 /**
  * AuthAdapter wraps any AgentAdapter and enforces OAuth authentication.
@@ -50,7 +51,9 @@ export class AuthAdapter implements AgentAdapter {
 
     const withContext = `[${identity}]\n\n${prompt}`;
 
-    return this.inner.stream(withContext, hooks, options);
+    return conversationContext.run(options.conversationId, () =>
+      this.inner.stream(withContext, hooks, options),
+    );
   }
 
   getConfig() {

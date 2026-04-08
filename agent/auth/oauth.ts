@@ -53,6 +53,7 @@ export async function exchangeCode(code: string): Promise<string> {
 
 export interface UserInfo {
   id: string;
+  login?: string;  // GitHub login / username
   name?: string;
   email?: string;
 }
@@ -80,6 +81,7 @@ export async function fetchUserInfo(accessToken: string): Promise<UserInfo> {
   const data = (await res.json()) as any;
   return {
     id: String(data.sub ?? data.id ?? data.login ?? 'unknown'),
+    login: data.login ?? undefined,
     name: data.name ?? data.login ?? undefined,
     email: data.email ?? undefined,
   };

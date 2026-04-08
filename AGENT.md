@@ -22,7 +22,7 @@ integrations:
 
 ## Overview
 
-`hello-auth` demonstrates a complete OAuth2 authentication flow for AI agents built on the Astropods platform. It wraps any underlying agent adapter with an `AuthAdapter` that intercepts every incoming message: unauthenticated users receive a sign-in link, while authenticated users have their identity automatically injected into the conversation prompt.
+`hello-astro` demonstrates a complete OAuth2 authentication flow for AI agents built on the Astropods platform. It wraps any underlying agent adapter with an `AuthAdapter` that intercepts every incoming message: unauthenticated users receive a sign-in link, while authenticated users have their identity automatically injected into the conversation prompt.
 
 Sessions are stored in-memory with an 8-hour TTL and keyed by conversation ID, allowing the agent to maintain per-conversation auth state across turns.
 
@@ -51,9 +51,6 @@ Sessions are stored in-memory with an 8-hour TTL and keyed by conversation ID, a
 |---|---|---|
 | `OAUTH_SCOPES` | `openid profile email` | Scopes to request |
 | `OAUTH_USERINFO_URL` | — | Userinfo endpoint (OIDC); falls back to token sub-claim |
-| `CALLBACK_PORT` | `3001` | Port for the OAuth callback HTTP server |
-| `PLAYGROUND_URL` | `http://localhost:3000` | Playground URL to redirect to after sign-in |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318` | OTLP endpoint for traces |
 
 ## Limitations
 

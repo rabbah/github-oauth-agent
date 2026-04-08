@@ -1,5 +1,5 @@
 /**
- * hello-auth - Agent showing basic auth flow
+ * hello-astro - Agent showing basic auth flow
  *
  * This agent uses Mastra's Agent class with the Astro adapter to connect
  * to the Astro messaging service via gRPC.
@@ -17,7 +17,6 @@
  *   OAUTH_USERINFO_URL       - Provider userinfo endpoint (optional, for OIDC/GitHub etc.)
  *   OAUTH_CALLBACK_URL       - Full URL of this agent's callback, e.g. http://localhost:3001/callback
  *   OAUTH_SCOPES             - Space-separated scopes (default: "openid profile email")
- *   JWT_SECRET               - Secret for signing session JWTs (min 32 chars)
  *   CALLBACK_PORT            - Port for the OAuth callback HTTP server (default: 3001)
  */
 
@@ -31,6 +30,7 @@ import { MastraAdapter } from '@astropods/adapter-mastra';
 import { serve } from '@astropods/adapter-core';
 import { AuthAdapter } from './auth/adapter';
 import { startCallbackServer } from './auth/callback';
+import { listRepos, getRepoDetails, getRepoReadme, listRecentActivity } from './tools/github';
 
 const memory = new Memory({
   storage: new LibSQLStore({
@@ -55,7 +55,7 @@ function resolveOtlpTracesEndpoint(): string {
 const observability = new Observability({
   configs: {
     otel: {
-      serviceName: 'hello-auth',
+      serviceName: 'hello-astro',
       exporters: [
         new OtelExporter({
           provider: {
@@ -71,18 +71,27 @@ const observability = new Observability({
 });
 
 const agent = new Agent({
-  id: 'hello-auth',
-  name: 'Hello Auth',
-  instructions: 'You are Hello Auth, a helpful AI assistant. Agent showing basic auth flow',
+  id: 'hello-astro',
+  name: 'Hello Astro',
+  instructions: `You are a helpful AI assistant with access to the authenticated user's GitHub account.
+
+You have four GitHub tools:
+- list_github_repos: list all repos the user has access to (owner, collaborator, org member), sorted by most recently updated
+- get_github_repo_details: get metadata for a specific repo (stars, forks, issues, language, topics, etc.)
+- get_github_repo_readme: fetch and read a repo's README to explain what it does
+- list_github_activity: list the user's recent GitHub activity (pushes, PRs, issues, forks, etc.)
+
+When answering questions about GitHub activity, call the appropriate tool(s) and synthesize the results into a helpful, readable response. You have access to private repos via the user's OAuth token — no rate limiting concerns.`,
   model: 'openai/gpt-4o',
   memory,
+  tools: { listRepos, getRepoDetails, getRepoReadme, listRecentActivity },
   // Ensure traces include stable Astro metadata by default.
   // The collector endpoint is injected by `ast dev`.
   defaultOptions: {
     tracingOptions: {
-      tags: ['astro', 'agent:hello-auth'],
+      tags: ['astro', 'agent:hello-astro'],
       metadata: {
-        agent_id: 'hello-auth',
+        agent_id: 'hello-astro',
       },
     },
   },
@@ -91,7 +100,7 @@ const agent = new Agent({
 // Instantiate Mastra so it registers agents/observability plugins at startup.
 new Mastra({
   agents: {
-    'hello-auth': agent,
+    'hello-astro': agent,
   },
   observability,
 });
