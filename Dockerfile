@@ -1,11 +1,3 @@
-# UI build stage
-FROM oven/bun:1 AS ui-builder
-WORKDIR /ui
-COPY ui/package.json ./
-RUN bun install
-COPY ui/ ./
-RUN bun run build
-
 # Agent build stage
 FROM oven/bun:1 AS builder
 WORKDIR /app
@@ -22,8 +14,8 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/agent ./agent
 COPY --from=builder /app/package.json ./
 
-# Copy built SPA
-COPY --from=ui-builder /ui/dist ./public
+# Copy built SPA from npm package
+COPY --from=builder /app/node_modules/@astropods/playground/dist ./public
 
 # Use non-root user already present in oven/bun image (bun:1000)
 RUN chown -R bun:bun /app
