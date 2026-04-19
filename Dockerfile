@@ -2,7 +2,6 @@
 FROM oven/bun:1 AS builder
 WORKDIR /app
 COPY package.json ./
-COPY astropods-playground-*.tgz ./
 RUN bun install
 COPY . .
 
