@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://astropods.ai/schema/package.json
 spec: package/v1
-name: hello-astro
+name: "github-oauth-agent"
 
 agent:
   build:
@@ -19,9 +19,11 @@ agent:
       description: OAuth client secret
     - name: OAUTH_AUTH_URL
       datatype: string
+      default: https://github.com/login/oauth/authorize
       description: OAuth authorization endpoint URL
     - name: OAUTH_TOKEN_URL
       datatype: string
+      default: https://github.com/login/oauth/access_token
       description: OAuth token exchange endpoint URL
     - name: OAUTH_CALLBACK_URL
       datatype: string
@@ -33,6 +35,7 @@ agent:
       optional: true
     - name: OAUTH_USERINFO_URL
       datatype: string
+      default: https://api.github.com/user
       description: OAuth userinfo endpoint URL
       optional: true
 
