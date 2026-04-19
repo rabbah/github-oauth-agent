@@ -1,6 +1,9 @@
 # yaml-language-server: $schema=https://astropods.ai/schema/package.json
 spec: package/v1
-name: hello-astro
+name: "github-oauth-agent"
+
+meta:
+  visibility: public
 
 agent:
   build:
